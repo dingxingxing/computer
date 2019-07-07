@@ -1,0 +1,67 @@
+<!--
+  Generated template for the CartPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar style="text-align:center">
+    <ion-title>购物车</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <!-- myList数组长度为0 -->
+  <div *ngIf="myList.length==0" style="text-align: center">
+    <img src="../../assets/img/404/404_img2.png" alt="">
+    <h1>购物车为空</h1>
+    <button ion-button block color='secondary' (click)="shopping()">逛逛去</button>
+  </div>
+
+  <!-- myList数组长度大于0 -->
+  <ion-list>
+      <ion-item-sliding *ngFor="let tmp of myList">
+      <ion-item >
+        <ion-checkbox item-start [(ngModel)]="tmp.isSelected" (ngModelChange)="operateSingle()"></ion-checkbox>
+        <ion-thumbnail item-end>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <img [src]="'../../assets/'+tmp.pic" alt="">
+              </ion-col>
+              <ion-col>
+                <h4>{{tmp.title}}</h4>
+                <p style="color:red">{{tmp.price | currency:'CNY'}}</p>
+                <button ion-button small (click)="sub(tmp.count,tmp.iid)">-</button><button ion-button small clear style="font-size:1.5rem">{{tmp.count}}</button><button ion-button small (click)="add(tmp.count,tmp.iid)">+</button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-thumbnail>
+      </ion-item>
+      <!-- 购物车商品删除按钮 -->
+      <ion-item-options side='right' >
+          <button ion-button color='danger' (click)="Cartdel(tmp.iid)">删除</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <!-- 储存是全选的复选框和去结算的按钮 -->
+  <ion-grid>
+    <ion-row align-items-center>
+      <ion-col col-2 style="text-align:right">
+        <ion-checkbox [(ngModel)]="isAllSelected" (ngModelChange)="operateAll()"></ion-checkbox>
+      </ion-col>
+      <ion-col>
+        全选 本次消费:{{calcAll()}}
+      </ion-col>
+      <ion-col>
+        <button ion-button color="danger" block>去结算</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
